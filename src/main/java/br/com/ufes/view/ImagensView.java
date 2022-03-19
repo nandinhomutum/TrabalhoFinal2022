@@ -11,8 +11,8 @@ import javax.swing.JList;
 public class ImagensView extends javax.swing.JFrame {
 
     
-    public ImagensView() {
-        initComponents();
+    public ImagensView(JList imagens) {
+        initComponents(imagens);
     }
 
     /**
@@ -22,9 +22,10 @@ public class ImagensView extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents(JList imagens) {
 
         imagensScrollPane = new javax.swing.JScrollPane();
+	imagensList = imagens;
         titleLabel = new javax.swing.JLabel();
         visualizarButton = new javax.swing.JButton();
         excluirButton = new javax.swing.JButton();

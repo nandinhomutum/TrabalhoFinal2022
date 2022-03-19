@@ -11,13 +11,11 @@ import br.com.ufes.view.ImagensView;
 import br.com.ufes.view.PermissaoDialog;
 import java.awt.Component;
 import java.awt.Image;
-import java.io.IOException;
-import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 public class ImagesPresenter {
     private ImagensView view;
@@ -69,11 +67,13 @@ public class ImagesPresenter {
     private void preencherLista() {
   
       this.view.setImagensList(ListadorDeImagens.getInstance().ListaImagens());
+    
     }
     
     private void configurarTela() {
-        this.view = new ImagensView();
-        preencherLista();
+        JList imagens = ListadorDeImagens.getInstance().ListaImagens();
+        //preencherLista();
+        this.view = new ImagensView(imagens);
         this.view.setVisible(true);
         
     }
