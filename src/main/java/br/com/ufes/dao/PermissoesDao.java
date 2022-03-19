@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-
 public class PermissoesDao {
     
     private PermissoesDao() {
@@ -29,25 +28,25 @@ public class PermissoesDao {
     
     public void save(Usuario usuario) throws SQLException {
         String sql = "SELECT COUNT(*) AS EXISTE FROM PERMISSOES WHERE CODUSU = ?";
-        PreparedStatement stmt = Conexao.getInstance().connect().prepareStatement(sql);
-        stmt.setInt(1, usuario.getIdUsuario());
+        PreparedStatement stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+        stmt.setInt(1, usuario.getCodUsu());
         ResultSet rs = stmt.executeQuery();
         if(0 != rs.getInt("EXISTE"))
             new JOptionPane().showMessageDialog(new JFrame(),"Já Existe Permissões para este Usuário!","Aviso",JOptionPane.WARNING_MESSAGE);
         else{
           sql = "INSERT INTO PERMISSOES (CODUSU, VISUALIZAR, EXCLUIR, COMPARTILHAR) VALUES (?,?,?,?)";
-          stmt = Conexao.getInstance().connect().prepareStatement(sql);
-          stmt.setInt(1,usuario.getIdUsuario());
-          stmt.setString(2,Interpretador.getInstance().interpreta(usuario.getPermissao().getVisualizar()));
-          stmt.setString(3,Interpretador.getInstance().interpreta(usuario.getPermissao().getExcluir()));
-          stmt.setString(4,Interpretador.getInstance().interpreta(usuario.getPermissao().getCompartilhar()));
+          stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+          stmt.setInt(1,usuario.getCodUsu());
+          stmt.setString(2,Interpretador.getInstance().interpreta(usuario.getPermissoes().getVisualizar()));
+          stmt.setString(3,Interpretador.getInstance().interpreta(usuario.getPermissoes().getExcluir()));
+          stmt.setString(4,Interpretador.getInstance().interpreta(usuario.getPermissoes().getCompartilhar()));
           stmt.execute();
         }
     }
 
     public Permissoes get(int codUsu) throws SQLException {
         String sql = "SELECT * FROM PERMISSOES WHERE CODUSU = ?";
-        PreparedStatement stmt = Conexao.getInstance().connect().prepareStatement(sql);
+        PreparedStatement stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
         stmt.setInt(1, codUsu);
         ResultSet rs = stmt.executeQuery();
         Permissoes perm = new Permissoes(Interpretador.getInstance().interpreta(rs.getString("VISUALIZAR"))
@@ -59,18 +58,18 @@ public class PermissoesDao {
     
     public void update(Usuario usuario) throws SQLException {
         String sql = "SELECT COUNT(*) AS EXISTE FROM PERMISSOES WHERE CODUSU = ?";
-        PreparedStatement stmt = Conexao.getInstance().connect().prepareStatement(sql);
-        stmt.setInt(1, usuario.getIdUsuario());
+        PreparedStatement stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+        stmt.setInt(1, usuario.getCodUsu());
         ResultSet rs = stmt.executeQuery();
         if(0 == rs.getInt("EXISTE"))
             new JOptionPane().showMessageDialog(new JFrame(),"Permissões Não Encontradas!","Aviso",JOptionPane.WARNING_MESSAGE);
         else{
           sql ="UPDATE PERMISSOES SET VISUALIZAR =? , EXCLUIR =? , COMPARTILHAR =? WHERE CODUSU = ?";
-          stmt = Conexao.getInstance().connect().prepareStatement(sql);
-          stmt.setString(1, Interpretador.getInstance().interpreta(usuario.getPermissao().getVisualizar()));
-          stmt.setString(2, Interpretador.getInstance().interpreta(usuario.getPermissao().getExcluir()));
-          stmt.setString(3, Interpretador.getInstance().interpreta(usuario.getPermissao().getCompartilhar()));
-          stmt.setInt(4, usuario.getIdUsuario());
+          stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+          stmt.setString(1, Interpretador.getInstance().interpreta(usuario.getPermissoes().getVisualizar()));
+          stmt.setString(2, Interpretador.getInstance().interpreta(usuario.getPermissoes().getExcluir()));
+          stmt.setString(3, Interpretador.getInstance().interpreta(usuario.getPermissoes().getCompartilhar()));
+          stmt.setInt(4, usuario.getCodUsu());
           stmt.executeUpdate();
                   
         }
@@ -78,15 +77,15 @@ public class PermissoesDao {
     
     public void delete(Usuario usuario) throws SQLException {
         String sql = "SELECT COUNT(*) AS EXISTE FROM PERMISSOES WHERE CODUSU = ?";
-        PreparedStatement stmt = Conexao.getInstance().connect().prepareStatement(sql);
-        stmt.setInt(1, usuario.getIdUsuario());
+        PreparedStatement stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+        stmt.setInt(1, usuario.getCodUsu());
         ResultSet rs = stmt.executeQuery();
         if(0 == rs.getInt("EXISTE"))
             new JOptionPane().showMessageDialog(new JFrame(),"Permissões Não Encontradas!","Aviso",JOptionPane.WARNING_MESSAGE);
         else{
             sql = "DELETE FROM PERMISSOES WHERE CODUSU = ?";
-            stmt = Conexao.getInstance().connect().prepareStatement(sql);
-            stmt.setInt(1, usuario.getIdUsuario());
+            stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+            stmt.setInt(1, usuario.getCodUsu());
             stmt.execute();
         }
     }
@@ -94,8 +93,11 @@ public class PermissoesDao {
     
     public ArrayList<Permissoes> getAll() throws SQLException {
        ArrayList<Permissoes> permissoes = new ArrayList<Permissoes>();
-       Statement stmt = Conexao.getInstance().connect().createStatement();
+       Statement stmt = SQLiteConnector.getInstance().connect().createStatement();
        ResultSet rs = stmt.executeQuery("SELECT * FROM PERMISSOES");
+       /*if(rs.first())
+           permissoes.add(new Permissoes(Interpretador.getInstance().interpreta(rs.getString("VISUALIZAR")), Interpretador.getInstance().interpreta(rs.getString("EXCLUIR")), Interpretador.getInstance().interpreta(rs.getString("COMPARTILHAR"))));
+         */
        while(rs.next()){
            permissoes.add(new Permissoes(Interpretador.getInstance().interpreta(rs.getString("VISUALIZAR")), Interpretador.getInstance().interpreta(rs.getString("EXCLUIR")), Interpretador.getInstance().interpreta(rs.getString("COMPARTILHAR"))));
        }

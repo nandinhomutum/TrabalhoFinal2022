@@ -1,48 +1,33 @@
 
 package br.com.ufes.model;
 
-import br.com.ufes.business.login.LoginState;
-
 
 public class Usuario {
-    
-    private int idUsuario;
-    private String login;
+    private int codUsu;
+    private String nome;
     private String senha;
-    private Boolean admin;
-    private Permissoes permissao;
-    private LoginState loginState;
+    private Boolean isAdmin;
+    private Permissoes permissoes;
 
-    public Usuario(String login, String senha, Boolean admin) {
-        this.login = login;
+    public Usuario(String nome, String senha, Boolean isAdmin) {
+        this.nome = nome;
         this.senha = senha;
-        this.admin = admin;
-
-    }
-
-    public Usuario(int idUsuario, String login, String senha, Boolean admin) {
-        this.idUsuario = idUsuario;
-        this.login = login;
-        this.senha = senha;
-        this.admin = admin;
-        this.permissao = permissao;
+        this.isAdmin = isAdmin;
     }
     
-    
-    public int getIdUsuario() {
-        return idUsuario;
+    public Usuario(int codUsu, String nome, String senha, Boolean isAdmin) {
+        this.codUsu = codUsu;
+        this.nome = nome;
+        this.senha = senha;
+        this.isAdmin = isAdmin;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public String getNome() {
+        return nome;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getSenha() {
@@ -53,28 +38,27 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public Boolean getAdmin() {
-        return admin;
+    public Boolean getIsAdmin() {
+        return isAdmin;
     }
 
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
-    public Permissoes getPermissao() {
-        return permissao;
+    public int getCodUsu() {
+        return codUsu;
     }
 
-    public void setPermissao(Permissoes permissao) {
-        this.permissao = permissao;
+    public void setCodUsu(int CodUsu) {
+        this.codUsu = CodUsu;
     }
-    
-    public LoginState getLoginState() {
-		return loginState;
-	}
 
-	public void setLoginState(LoginState loginState) {
-		this.loginState = loginState;
-	}
-    
+    public Permissoes getPermissoes() {
+        return permissoes;
+    }
+
+    public void setPermissoes(Permissoes permissoes) {
+        this.permissoes = permissoes;
+    }   
 }

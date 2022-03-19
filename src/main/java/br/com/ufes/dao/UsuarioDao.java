@@ -1,3 +1,4 @@
+
 package br.com.ufes.dao;
 
 
@@ -21,116 +22,149 @@ public class UsuarioDao{
     }
     
     public Usuario get(int codUsu) throws SQLException {
+        try{
         String sql = "SELECT * FROM USUARIO WHERE CODUSU = ?";
-        PreparedStatement stmt = Conexao.getInstance().connect().prepareStatement(sql);
+        PreparedStatement stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
         stmt.setInt(1, codUsu);
         ResultSet rs = stmt.executeQuery();
         if(!rs.next())
              new JOptionPane().showMessageDialog(new JFrame(),"Usuário Inválido!","Aviso",JOptionPane.WARNING_MESSAGE);
         
         rs = stmt.executeQuery(); 
-       
-        Usuario user = new Usuario(rs.getString("NOMEUSU"), rs.getString("PASS"), Interpretador.getInstance().interpreta(rs.getString("ADM")));
-        user.setIdUsuario(codUsu);
-        user.setPermissao(PermissoesDao.getInstance().get(codUsu));
-        return user;
+        
+        Usuario usu = new Usuario(rs.getString("NOMEUSU"), rs.getString("PASS"), Interpretador.getInstance().interpreta(rs.getString("ADM"))); 
+        usu.setCodUsu(codUsu);
+        usu.setPermissoes(PermissoesDao.getInstance().get(codUsu));
+        return usu;
+        }  catch (SQLException ex) {
+            return null;
+
+        }
     }
     
-    public Usuario getLogin(String nome) throws SQLException {
+    public Usuario get(String nome) throws SQLException {
+        try{
         String sql = "SELECT * FROM USUARIO WHERE NOMEUSU = ?";
-        PreparedStatement stmt = Conexao.getInstance().connect().prepareStatement(sql);
+        PreparedStatement stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
         stmt.setString(1, nome.toUpperCase());
         ResultSet rs = stmt.executeQuery();        
         if(!rs.next())
              new JOptionPane().showMessageDialog(new JFrame(),"Usuário Inválido!","Aviso",JOptionPane.WARNING_MESSAGE);
         
-        stmt = Conexao.getInstance().connect().prepareStatement(sql);
+        stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
         stmt.setString(1, nome.toUpperCase());
         rs = stmt.executeQuery();
         Usuario usu = new Usuario(rs.getString("NOMEUSU"), rs.getString("PASS"), Interpretador.getInstance().interpreta(rs.getString("ADM")));
-        usu.setIdUsuario(rs.getInt("CODUSU"));
-        usu.setPermissao(PermissoesDao.getInstance().get(rs.getInt("CODUSU")));
-        System.out.println(usu.getAdmin().toString()+" , "+ usu.getPermissao().getVisualizar().toString()+" , "+usu.getPermissao().getExcluir().toString()+","+usu.getPermissao().getCompartilhar().toString());
+        usu.setCodUsu(rs.getInt("CODUSU"));
+        usu.setPermissoes(PermissoesDao.getInstance().get(rs.getInt("CODUSU")));
+        System.out.println(usu.getIsAdmin().toString()+" , "+ usu.getPermissoes().getVisualizar().toString()+" , "+usu.getPermissoes().getExcluir().toString()+","+usu.getPermissoes().getCompartilhar().toString());
         return usu;
+        }  catch (SQLException ex) {
+            return null;
+
+        }
     }
 
-    public void save(Usuario usuario) throws SQLException {
+    public void save(Usuario usuario) {
+        try{
         String sql = "SELECT COUNT(*) AS EXISTE FROM USUARIO WHERE NOMEUSU = ?";
-        PreparedStatement stmt = Conexao.getInstance().connect().prepareStatement(sql);
-        stmt.setString(1, usuario.getLogin().toUpperCase());
+        PreparedStatement stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+        stmt.setString(1, usuario.getNome().toUpperCase());
         ResultSet rs = stmt.executeQuery();
         if(0 != rs.getInt("EXISTE"))
             new JOptionPane().showMessageDialog(new JFrame(),"Já Existe um Usuário Cadastrado com este nome!","Aviso",JOptionPane.WARNING_MESSAGE);
         else{
           sql = "INSERT INTO USUARIO (NOMEUSU, PASS, ADM) VALUES (?,?,?)";
-          stmt = Conexao.getInstance().connect().prepareStatement(sql);
-          stmt.setString(1, usuario.getLogin().toUpperCase());
+          stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+          stmt.setString(1, usuario.getNome().toUpperCase());
           stmt.setString(2, usuario.getSenha());
-          stmt.setString(3, Interpretador.getInstance().interpreta(usuario.getAdmin()));
+          stmt.setString(3, Interpretador.getInstance().interpreta(usuario.getIsAdmin()));
           stmt.execute(); 
           
           sql = "SELECT CODUSU FROM USUARIO WHERE NOMEUSU = ?";
-          stmt = Conexao.getInstance().connect().prepareStatement(sql);
-          stmt.setString(1, usuario.getLogin().toUpperCase());
+          stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+          stmt.setString(1, usuario.getNome().toUpperCase());
         
         rs = stmt.executeQuery();
-        usuario.setIdUsuario(rs.getInt("CODUSU"));
+        usuario.setCodUsu(rs.getInt("CODUSU"));
         PermissoesDao.getInstance().save(usuario);
+        }
+        }catch (SQLException ex) {
+            //return null;
+
         }
     }
 
     
     public void update(Usuario usuario) throws SQLException {
-        System.out.println(Integer.toString(usuario.getIdUsuario()));
+        try{
+        System.out.println(Integer.toString(usuario.getCodUsu()));
         String sql = "SELECT COUNT(*) AS EXISTE FROM USUARIO WHERE CODUSU = ?";
-        PreparedStatement stmt = Conexao.getInstance().connect().prepareStatement(sql);
-        stmt.setInt(1, usuario.getIdUsuario());
+        PreparedStatement stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+        stmt.setInt(1, usuario.getCodUsu());
         ResultSet rs = stmt.executeQuery();
         if(0 == rs.getInt("EXISTE"))
             new JOptionPane().showMessageDialog(new JFrame(),"Usuário Não Encontrado!","Aviso",JOptionPane.WARNING_MESSAGE);
         else{
            sql = "UPDATE USUARIO SET NOMEUSU =? , PASS =? , ADM = ? WHERE CODUSU =?";
-          stmt = Conexao.getInstance().connect().prepareStatement(sql);
-          stmt.setString(1,usuario.getLogin());
+          stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+          stmt.setString(1,usuario.getNome());
           stmt.setString(2,usuario.getSenha());
-          stmt.setString(3,Interpretador.getInstance().interpreta(usuario.getAdmin()));
-          stmt.setInt(4,usuario.getIdUsuario());
+          stmt.setString(3,Interpretador.getInstance().interpreta(usuario.getIsAdmin()));
+          stmt.setInt(4,usuario.getCodUsu());
           stmt.executeUpdate();
           PermissoesDao.getInstance().update(usuario);
+        }}catch (SQLException ex) {
+            //return null;
+
         }
     }
 
     
     public void delete(Usuario usuario) throws SQLException {
+        try{
         String sql = "SELECT COUNT(*) AS EXISTE FROM USUARIO WHERE CODUSU = ?";
-        PreparedStatement stmt = Conexao.getInstance().connect().prepareStatement(sql);
-        stmt.setInt(1, usuario.getIdUsuario());
+        PreparedStatement stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+        stmt.setInt(1, usuario.getCodUsu());
         ResultSet rs = stmt.executeQuery();
         if(0 == rs.getInt("EXISTE"))
             new JOptionPane().showMessageDialog(new JFrame(),"Usuário Não Encontrado!","Aviso",JOptionPane.WARNING_MESSAGE);
         else{
             sql = "DELETE FROM USUARIO WHERE CODUSU = ?";
-            stmt = Conexao.getInstance().connect().prepareStatement(sql);
-            stmt.setInt(1, usuario.getIdUsuario());
+            stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);
+            stmt.setInt(1, usuario.getCodUsu());
             stmt.execute();
            PermissoesDao.getInstance().delete(usuario);
+        }}catch (SQLException ex) {
+            //return null;
+
         }
     }
 
     
-    public ArrayList<Usuario> getAll() throws SQLException {
+    public ArrayList<Usuario> getAll(){
+        try{
        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
-       Statement stmt = Conexao.getInstance().connect().createStatement();
+       Statement stmt = SQLiteConnector.getInstance().connect().createStatement();
        ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO");
-     
+       /*if(rs.next()){
+           Usuario usu = new Usuario(rs.getInt("CODUSU"), rs.getString("NOMEUSU"), rs.getString("PASS"), Interpretador.getInstance().interpreta(rs.getString("ADM")));
+           usu.setPermissoes(PermissoesDao.getInstance().get(rs.getInt("CODUSU")));
+           usuarios.add(usu);
+       }*/
        while(rs.next()){
            Usuario usu = new Usuario(rs.getInt("CODUSU"), rs.getString("NOMEUSU"), rs.getString("PASS"), Interpretador.getInstance().interpreta(rs.getString("ADM")));
-           usu.setPermissao(PermissoesDao.getInstance().get(rs.getInt("CODUSU")));
+           usu.setPermissoes(PermissoesDao.getInstance().get(rs.getInt("CODUSU")));
            usuarios.add(usu);
            
        }
        
        return usuarios;
+        
+    }catch (SQLException ex) {
+            return null;
+
+        }
     }
     
     private static class UsuarioDaoHolder {

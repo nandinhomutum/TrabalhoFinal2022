@@ -5,33 +5,32 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+public class SQLiteConnector implements IConnector {
 
-public class Conexao {
-    
+    private Connection conn;
 
-  private Connection conn;
-
-    Conexao() {
+    private SQLiteConnector() {
     }
 
-    public static Conexao getInstance() {
+    public static SQLiteConnector getInstance() {
         return NewSingletonHolder.INSTANCE;
     }
 
     private static class NewSingletonHolder {
 
-        private static final Conexao INSTANCE = new Conexao();
+        private static final SQLiteConnector INSTANCE = new SQLiteConnector();
     }
 
+    @Override
     public Connection connect() {
         if (null == this.getConn()) {
             try {
                 // db parameters  
                 String url = "jdbc:sqlite:bancoDB.db";
-                // create a connection to the database  
+               
                 this.conn = DriverManager.getConnection(url);
 
-                System.out.println("Conectou ao banco");
+                System.out.println("Connection to SQLite has been established.");
 
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -44,7 +43,7 @@ public class Conexao {
         if (null != this.getConn()) {        
             try {                
               conn.close();
-              System.out.println("Desconectou do banco");
+              System.out.println("Disconected from SQLite.");
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -54,11 +53,9 @@ public class Conexao {
     public Connection connect(String url) {
         if (null == this.getConn()) {
             try {
-                // db parameters                  
-                // create a connection to the database  
                 this.conn = DriverManager.getConnection(url);
 
-                System.out.println("Conexao Estabelecida");
+                System.out.println("Connection to SQLite has been established.");
 
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -70,4 +67,5 @@ public class Conexao {
     private Connection getConn() {
         return conn;
     }
+
 }
