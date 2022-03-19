@@ -20,16 +20,7 @@ public class MenuPresenter {
         configurarTela();
         
         
-        this.view.setVisible(true);
-        this.usuariologado = usuariologado; 
-        this.view.getLogUserTextField().setText(usuariologado.getNome());
-        if(this.usuariologado.getIsAdmin())
-            this.view.getTypeUserTextField().setText("Administrador");
-        else{
-            this.view.getTypeUserTextField().setText("Padrão");
-            this.view.getUsersMenu().setVisible(false);
-        }
-        this.view.getUsersInternalFrame().setVisible(false);
+        
     }   
     
     public void Cadastro() throws SQLException{
@@ -90,5 +81,14 @@ public class MenuPresenter {
     private void configurarTela() {
         this.view = new MenuView();
         this.view.setVisible(true);
+        this.usuariologado = usuariologado; 
+        this.view.getLogUserTextField().setText(usuariologado.getNome());
+        if(this.usuariologado.getIsAdmin())
+            this.view.getTypeUserTextField().setText("Administrador");
+        else{
+            this.view.getTypeUserTextField().setText("Padrão");
+            this.view.getUsersMenu().setVisible(false);
+        }
+        this.view.getUsersInternalFrame().setVisible(false);
     }
 }
