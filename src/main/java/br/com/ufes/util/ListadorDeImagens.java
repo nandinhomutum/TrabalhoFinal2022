@@ -34,7 +34,7 @@ public class ListadorDeImagens {
     public JList ListaImagens(){
         panes.clear();
         File directoryPath = new File(ImagemUtils.IMG_DIR);
-        //List of all files and directories
+       
         imagens = directoryPath.listFiles();
          
         // construct the menuList as a JList

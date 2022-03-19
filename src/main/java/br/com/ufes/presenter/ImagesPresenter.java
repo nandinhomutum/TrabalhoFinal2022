@@ -12,18 +12,20 @@ import br.com.ufes.view.PermissaoDialog;
 import java.awt.Component;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
-public class ImagesPreseter {
+public class ImagesPresenter {
     private ImagensView view;
     Usuario usuariologado;
     Image imagem;
      
 
-    public ImagesPreseter(Usuario usu) {
+    public ImagesPresenter(Usuario usu) {
         configurarTela();
         this.usuariologado = usu;
     } 
@@ -39,7 +41,7 @@ public class ImagesPreseter {
         
     }
     
-    public void excluir() throws IOException{
+    public void excluir(){
         if(this.usuariologado.getPermissoes().getExcluir()){
         Boolean sucesso = DeletadorDeImagens.getInstance().deletar(ImagemUtils.IMG_DIRECTORY+detectarImagemSelecionada());        
         this.view.setImagensList(ListadorDeImagens.getInstance().ListaImagens());
@@ -64,8 +66,14 @@ public class ImagesPreseter {
           return label.getText();
     }
     
+    private void preencherLista() {
+      ListadorDeImagens.getInstance().ListaImagens();
+    }
+    
     private void configurarTela() {
         this.view = new ImagensView();
+        preencherLista();
         this.view.setVisible(true);
+        
     }
 }

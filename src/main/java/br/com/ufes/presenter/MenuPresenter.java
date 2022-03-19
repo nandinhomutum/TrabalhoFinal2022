@@ -38,7 +38,7 @@ public class MenuPresenter {
         view.getMostrarMiniMenuItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                ListarImagens();
+                ListarImagens(usuariologado);
             }  
         });
         
@@ -111,8 +111,8 @@ public class MenuPresenter {
         this.ListaUsuarios();
     }
     
-    public void ListarImagens(){
-        new ImagesPreseter(this.usuariologado);
+    public void ListarImagens(Usuario usuariologado){
+        new ImagesPresenter(usuariologado);
     }
     
     private void configurarTela(Usuario usuariologado) {

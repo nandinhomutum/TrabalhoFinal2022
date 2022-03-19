@@ -25,7 +25,6 @@ public class ImagensView extends javax.swing.JFrame {
     private void initComponents() {
 
         imagensScrollPane = new javax.swing.JScrollPane();
-        imagensList = ListadorDeImagens.getInstance().ListaImagens();
         titleLabel = new javax.swing.JLabel();
         visualizarButton = new javax.swing.JButton();
         excluirButton = new javax.swing.JButton();
