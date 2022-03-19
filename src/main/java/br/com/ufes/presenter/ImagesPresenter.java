@@ -67,7 +67,8 @@ public class ImagesPresenter {
     }
     
     private void preencherLista() {
-      ListadorDeImagens.getInstance().ListaImagens();
+  
+      this.view.setImagensList(ListadorDeImagens.getInstance().ListaImagens());
     }
     
     private void configurarTela() {
