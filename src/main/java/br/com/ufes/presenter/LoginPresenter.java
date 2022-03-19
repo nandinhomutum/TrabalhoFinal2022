@@ -49,7 +49,7 @@ public class LoginPresenter {
     }    
     
     public void Cadastro(){
-       // new CadastroUsuarioView().setVisible(true);
+       new CadastroUsuarioPresenter();
     }    
     
     public void Logar() throws SQLException{

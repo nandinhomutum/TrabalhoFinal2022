@@ -42,7 +42,7 @@ public class UsuarioDao{
         }
     }
     
-    public Usuario get(String nome) throws SQLException {
+    public Usuario get(String nome) {
         try{
         String sql = "SELECT * FROM USUARIO WHERE NOMEUSU = ?";
         PreparedStatement stmt = SQLiteConnector.getInstance().connect().prepareStatement(sql);

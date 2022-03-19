@@ -18,7 +18,7 @@ public class MenuPresenter {
     public MenuPresenter(Usuario usuariologado) {
         
         configurarTela();
-        this.view = new MenuView();
+        
         
         this.view.setVisible(true);
         this.usuariologado = usuariologado; 
