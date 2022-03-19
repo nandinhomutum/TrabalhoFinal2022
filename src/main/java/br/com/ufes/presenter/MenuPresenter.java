@@ -5,6 +5,8 @@ package br.com.ufes.presenter;
 import br.com.ufes.dao.UsuarioDao;
 import br.com.ufes.model.Usuario;
 import br.com.ufes.view.MenuView;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,15 +19,50 @@ public class MenuPresenter {
 
     public MenuPresenter(Usuario usuariologado) {
         
-        configurarTela();
+        configurarTela(usuariologado);
         
+        view.getNovoUsuarioMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                Cadastro();
+            }  
+        });
         
+        view.getListarUsuariosMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ListaUsuarios();
+            }  
+        });
+        
+        view.getMostrarMiniMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ListarImagens();
+            }  
+        });
+        
+        view.getTrocarUsuarioMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                TrocarUsuario();
+            }  
+        });
+        
+        view.getNovoUsuarioMenuItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                TrocarUsuario();
+            }  
+
+            
+        });
         
     }   
-    
-    public void Cadastro() throws SQLException{
-        //new CadastroUsuarioView().setVisible(true);
-        this.ListaUsuarios();
+   
+    public void Cadastro(){
+        new CadastroUsuarioPresenter();
+        
     }   
     
     public void TrocarUsuario(){
@@ -34,7 +71,7 @@ public class MenuPresenter {
         new LoginPresenter();
     }  
     
-    public void ListaUsuarios() throws SQLException{
+    public void ListaUsuarios(){
         DefaultTableModel tabela = new DefaultTableModel();        
         tabela.addColumn("Nome");
         tabela.addColumn("É Administrador?");
@@ -62,23 +99,23 @@ public class MenuPresenter {
     public void EditarUsuario() throws SQLException{
         int linha = this.view.getUsersTable().getSelectedRow();        
         
-       // new EdicaoDeUsuarioPreseter(this.view.getUsersTable().getValueAt(linha, 0).toString());
+        new EdicaoDeUsuarioPresenter(this.view.getUsersTable().getValueAt(linha, 0).toString());
         this.ListaUsuarios();
     }
     
     public void ExcluirUsuario() throws SQLException{
         int linha = this.view.getUsersTable().getSelectedRow();
-        //System.out.println(this.view.getUsersTable().getValueAt(linha, 0).toString());
+        System.out.println(this.view.getUsersTable().getValueAt(linha, 0).toString());
         Usuario user = UsuarioDao.getInstance().get(this.view.getUsersTable().getValueAt(linha, 0).toString());
         UsuarioDao.getInstance().delete(user);
         this.ListaUsuarios();
     }
     
-    public void ListarImagens() throws IOException{
-        //new ImagesPreseter(this.usuariologado);
+    public void ListarImagens(){
+        new ImagesPreseter(this.usuariologado);
     }
     
-    private void configurarTela() {
+    private void configurarTela(Usuario usuariologado) {
         this.view = new MenuView();
         this.view.setVisible(true);
         this.usuariologado = usuariologado; 
