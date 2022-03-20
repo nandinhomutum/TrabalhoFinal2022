@@ -4,6 +4,7 @@ package br.com.ufes.view;
 
 import br.com.ufes.util.ListadorDeImagens;
 import java.io.IOException;
+import javax.swing.JButton;
 
 import javax.swing.JList;
 
@@ -116,8 +117,21 @@ public class ImagensView extends javax.swing.JFrame {
        
     }//GEN-LAST:event_excluirButtonActionPerformed
 
-   
-  
+    public JButton getCancelButton() {
+        return cancelButton;
+    }
+
+    public void setCancelButton(JButton cancelButton) {
+        this.cancelButton = cancelButton;
+    }
+
+    public JButton getExcluirButton() {
+        return excluirButton;
+    }
+
+    public void setExcluirButton(JButton excluirButton) {
+        this.excluirButton = excluirButton;
+    }
 
     public JList<String> getImagensList() {
         return imagensList;
@@ -125,7 +139,20 @@ public class ImagensView extends javax.swing.JFrame {
 
     public void setImagensList(JList<String> imagensList) {
         this.imagensList = imagensList;
-    }    
+    }
+
+    public JButton getVisualizarButton() {
+        return visualizarButton;
+    }
+
+    public void setVisualizarButton(JButton visualizarButton) {
+        this.visualizarButton = visualizarButton;
+    }
+
+   
+  
+
+   
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

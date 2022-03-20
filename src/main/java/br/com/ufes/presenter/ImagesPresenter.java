@@ -11,6 +11,8 @@ import br.com.ufes.view.ImagensView;
 import br.com.ufes.view.PermissaoDialog;
 import java.awt.Component;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -26,6 +28,26 @@ public class ImagesPresenter {
     public ImagesPresenter(Usuario usu) {
         configurarTela();
         this.usuariologado = usu;
+        
+        view.getVisualizarButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                visualizar();
+            }  
+        });
+        view.getCancelButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                sair();
+            }  
+        });
+        
+        view.getExcluirButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                excluir();
+            }  
+        });
     } 
     
     public void visualizar(){
@@ -37,6 +59,10 @@ public class ImagesPresenter {
             new PermissaoDialog(this.view,true).setVisible(true);
         }
         
+    }
+    
+    public void sair(){
+        view.dispose();
     }
     
     public void excluir(){
@@ -64,15 +90,9 @@ public class ImagesPresenter {
           return label.getText();
     }
     
-    private void preencherLista() {
-  
-      this.view.setImagensList(ListadorDeImagens.getInstance().ListaImagens());
-    
-    }
-    
     private void configurarTela() {
         JList imagens = ListadorDeImagens.getInstance().ListaImagens();
-        //preencherLista();
+        
         this.view = new ImagensView(imagens);
         this.view.setVisible(true);
         
