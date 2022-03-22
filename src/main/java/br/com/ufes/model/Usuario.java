@@ -1,6 +1,8 @@
 
 package br.com.ufes.model;
 
+import br.com.ufes.business.login.LoginState;
+
 
 public class Usuario {
     private int codUsu;
@@ -8,6 +10,7 @@ public class Usuario {
     private String senha;
     private Boolean isAdmin;
     private Permissoes permissoes;
+    private LoginState login;
 
     public Usuario(String nome, String senha, Boolean isAdmin) {
         this.nome = nome;
@@ -61,4 +64,14 @@ public class Usuario {
     public void setPermissoes(Permissoes permissoes) {
         this.permissoes = permissoes;
     }   
+
+    public LoginState getLogin() {
+        return login;
+    }
+
+    public void setLoginState(LoginState login) {
+        this.login = login;
+    }
+    
+    
 }

@@ -39,12 +39,8 @@ public class LoginPresenter {
         view.getLoginButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                try {
                     Logar();
-                } catch (SQLException ex) {
-                    Logger.getLogger(LoginPresenter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }  
+                } 
         });    
     }    
     
@@ -52,7 +48,7 @@ public class LoginPresenter {
        new CadastroUsuarioPresenter();
     }    
     
-    public void Logar() throws SQLException{
+    public void Logar(){
         if(ValidadorDeSenha.getInstance().valida(view.getUserTextField().getText(), Arrays.toString(view.getSenhaPasswordField().getPassword()))){
             new MenuPresenter(UsuarioDao.getInstance().get(view.getUserTextField().getText()));
             sair();
