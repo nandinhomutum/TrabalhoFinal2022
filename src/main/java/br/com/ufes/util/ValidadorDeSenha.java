@@ -32,7 +32,7 @@ public class ValidadorDeSenha {
         
         if(senha.toUpperCase().equals(UsuarioDao.getInstance().get(nome).getSenha().toUpperCase())){
             System.out.println("aqui");
-            user.getLogin().mudaEstado(user);
+            /*user.getLogin().mudaEstado(user);*/
             return true;
         } else 
             return false;

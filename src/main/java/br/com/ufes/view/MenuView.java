@@ -48,8 +48,6 @@ public class MenuView extends javax.swing.JFrame {
         trocarUsuarioMenuItem = new javax.swing.JMenuItem();
         imagesMenu = new javax.swing.JMenu();
         mostrarMiniMenuItem = new javax.swing.JMenuItem();
-        copyMenuItem = new javax.swing.JMenuItem();
-        pasteMenuItem = new javax.swing.JMenuItem();
         deleteMenuItem = new javax.swing.JMenuItem();
         sairMenu = new javax.swing.JMenu();
         sairMenuItem = new javax.swing.JMenuItem();
@@ -237,14 +235,6 @@ public class MenuView extends javax.swing.JFrame {
         });
         imagesMenu.add(mostrarMiniMenuItem);
 
-        copyMenuItem.setMnemonic('y');
-        copyMenuItem.setText("Copy");
-        imagesMenu.add(copyMenuItem);
-
-        pasteMenuItem.setMnemonic('p');
-        pasteMenuItem.setText("Paste");
-        imagesMenu.add(pasteMenuItem);
-
         deleteMenuItem.setMnemonic('d');
         deleteMenuItem.setText("Delete");
         imagesMenu.add(deleteMenuItem);
@@ -387,13 +377,7 @@ public class MenuView extends javax.swing.JFrame {
         return usersTable;
     }
 
-    public JMenuItem getCopyMenuItem() {
-        return copyMenuItem;
-    }
-
-    public void setCopyMenuItem(JMenuItem copyMenuItem) {
-        this.copyMenuItem = copyMenuItem;
-    }
+    
 
     public JMenuItem getDeleteMenuItem() {
         return deleteMenuItem;
@@ -496,14 +480,7 @@ public class MenuView extends javax.swing.JFrame {
         this.novoUsuarioMenuItem = novoUsuarioMenuItem;
     }
 
-    public JMenuItem getPasteMenuItem() {
-        return pasteMenuItem;
-    }
-
-    public void setPasteMenuItem(JMenuItem pasteMenuItem) {
-        this.pasteMenuItem = pasteMenuItem;
-    }
-
+   
     public JMenu getSairMenu() {
         return sairMenu;
     }
@@ -539,7 +516,6 @@ public class MenuView extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JButton editarButton;
     private javax.swing.JButton excluirButton;
@@ -555,7 +531,6 @@ public class MenuView extends javax.swing.JFrame {
     private javax.swing.JButton notifyButton;
     private javax.swing.JButton novoUsuarioButton;
     private javax.swing.JMenuItem novoUsuarioMenuItem;
-    private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenu sairMenu;
     private javax.swing.JMenuItem sairMenuItem;
     private javax.swing.JMenuItem trocarUsuarioMenuItem;

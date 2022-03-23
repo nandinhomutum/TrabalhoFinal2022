@@ -49,11 +49,15 @@ public class LoginPresenter {
     }    
     
     public void Logar(){
-        if(ValidadorDeSenha.getInstance().valida(view.getUserTextField().getText(), Arrays.toString(view.getSenhaPasswordField().getPassword()))){
-            new MenuPresenter(UsuarioDao.getInstance().get(view.getUserTextField().getText()));
-            sair();
-        }else{
-            new JOptionPane().showMessageDialog(new JFrame(),"Senha Inválida!","Aviso",JOptionPane.WARNING_MESSAGE);
+        try {
+            if(ValidadorDeSenha.getInstance().valida(view.getUserTextField().getText(), Arrays.toString(view.getSenhaPasswordField().getPassword()))){
+                new MenuPresenter(UsuarioDao.getInstance().get(view.getUserTextField().getText()));
+                sair();
+            }else{
+                new JOptionPane().showMessageDialog(new JFrame(),"Senha Inválida!","Aviso",JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginPresenter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     private void sair() {
